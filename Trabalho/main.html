@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Reserva das Salas de Estudo</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #c0e9ee;
+    }
+
+    header {
+        padding: 20px 40px;
+    }
+
+    header img {
+        width: 180px;
+    }
+
+    h1 {
+        margin-top: 40px;
+        margin-left: 40px;
+        font-weight: normal;
+    }
+
+    .container {
+        background-color: #f5f5f5;
+        width: 85%;
+        margin: 30px auto;
+        padding: 25px;
+        border-radius: 12px;
+        display: flex;
+        gap: 40px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .left, .right {
+        flex: 1;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"] {
+        width: 90%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .status {
+        font-size: 13px;
+        color: #333;
+    }
+
+    .green-dot {
+        height: 10px;
+        width: 10px;
+        background-color: green;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .sala-item {
+        margin-bottom: 15px;
+    }
+</style>
+
+</head>
+<body>
+
+<header>
+    <img src="bnb logo.png" alt="logo bnb">
+</header>
+
+<h1>Reserva das Salas de Estudo</h1>
+
+<div class="container">
+
+    <div class="left">
+        <p>Nome do responsável pela reserva:</p>
+        <input type="text" id="nome" placeholder="Digite o nome">
+
+        <p>CPF do responsável pela reserva:</p>
+        <input type="text" id="cpf" placeholder="Digite o CPF">
+
+        <p>Data:</p>
+        <input type="date" id="data">
+
+        <p>Hora de início:</p>
+        <input type="time" id="horaInicio">
+
+        <p>Hora de fim:</p>
+        <input type="time" id="horaFim">
+
+        <button id="btnReserva">Finalizar reserva</button>
+    </div>
+
+    <div class="right">
+        <p class="section-title">Selecione a sala que deseja reservar:</p>
+
+        <p><strong>2º andar:</strong></p>
+
+        <div class="sala-item">
+            <input type="checkbox" class="sala"> Sala individual<br>
+            <span class="status">Status: 2 disponíveis</span>
+            <span class="green-dot"></span>
+        </div>
+
+        <div class="sala-item">
+            <input type="checkbox" class="sala"> Sala em grupo máx. 6 pessoas<br>
+            <span class="status">Status: 2 disponíveis</span>
+            <span class="green-dot"></span>
+        </div>
+
+        <div class="sala-item">
+            <input type="checkbox" class="sala"> Sala em grupo máx. 3 pessoas<br>
+            <span class="status">Status: 10 disponíveis</span>
+            <span class="green-dot"></span>
+        </div>
+
+        <p><strong>3º andar:</strong></p>
+
+        <div class="sala-item">
+            <input type="checkbox" class="sala"> Sala individual<br>
+            <span class="status">Status: 2 disponíveis</span>
+            <span class="green-dot"></span>
+        </div>
+
+        <div class="sala-item">
+            <input type="checkbox" class="sala"> Sala em grupo máx. 6 pessoas<br>
+            <span class="status">Status: 2 disponíveis</span>
+            <span class="green-dot"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll(".sala");
+
+    checkboxes.forEach(caixa => {
+        caixa.addEventListener('change', function() {
+            if (this.checked) {
+                checkboxes.forEach(outra => {
+                    if (outra !== this) outra.checked = false;
+                });
+            }
+        });
+    });
+
+    document.getElementById("btnReserva").addEventListener("click", function() {
+        const nome = document.getElementById("nome").value;
+        const cpf = document.getElementById("cpf").value;
+        const data = document.getElementById("data").value;
+        const horaInicio = document.getElementById("horaInicio").value;
+        const horaFim = document.getElementById("horaFim").value;
+
+        let salaSelecionada = false;
+        checkboxes.forEach(s => {
+            if (s.checked) salaSelecionada = true;
+        });
+
+        if (nome === "" || cpf === "" || data === "" || horaInicio === "" || horaFim === "") {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        if (horaFim <= horaInicio) {
+            alert("A hora de fim deve ser maior que a hora de início!");
+            return;
+        }
+
+        if (!salaSelecionada) {
+            alert("Selecione uma sala!");
+            return;
+        }
+
+        alert("Reserva realizada com sucesso!");
+        console.log("Reserva confirmada para:", nome);
+    });
+</script>
+
+</body>
+</html>
